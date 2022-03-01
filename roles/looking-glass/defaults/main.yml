@@ -1,2 +1,4 @@
 ---
 # defaults file for ./roles/looking-glass
+version: B5.0.1
+hash: 3df7d30c
