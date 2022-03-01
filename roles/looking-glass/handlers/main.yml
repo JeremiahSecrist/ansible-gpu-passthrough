@@ -1,2 +1,9 @@
 ---
 # handlers file for ./roles/looking-glass
+- name: Import RHEL only handlers.
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+
+- name: Import Debian only handlers.
+  import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
