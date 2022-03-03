@@ -1,14 +1,58 @@
 ---
 # tasks file for ./roles/looking-glass
 
-- name: Install podman.
+
+- name: Install packages.
   ansible.builtin.package:
-    name: podman
+    name: 
+      - podman
+      - cmake
+      - gcc
+      - gcc-c++ 
+      - libglvnd-devel 
+      - fontconfig-devel 
+      - spice-protocol 
+      - make 
+      - nettle-devel
+      - pkgconf-pkg-config 
+      - binutils-devel 
+      - libXi-devel 
+      - libXinerama-devel.x86_64
+      - libXinerama-devel.i686
+      - libXcursor-devel.x86_64
+      - libXcursor-devel.i686
+      - libXpresent-devel 
+      - libxkbcommon-x11-devel 
+      - wayland-devel 
+      - wayland-protocols-devel
+      - libXScrnSaver-devel 
+      - libXrandr-devel 
+      - dejavu-sans-mono-fonts
+      - libdecor-devel
     state: present
 
-- name: Build looking glass container. 
-  containers.podman.podman_container:
-    name: lg
-    path: ./files
-    build:
-      format: docker
+# - name: make a working directory
+
+- name: Download latest version of looking-glass.
+  get_url:                                                           
+    url: "https://looking-glass.io/artifact/{{ version }}/source"                       
+    dest: "{{WRKDIR}}/looking-glass.tar.gz"
+
+- name: Unarchive a file that is already on the remote machine
+  ansible.builtin.unarchive:
+    src: "{{WRKDIR}}/looking-glass.tar.gz"
+    dest: "{{WRKDIR}}/"
+    remote_src: yes
+
+
+- name: Make looking glass compile path.
+  file:
+    path: "{{WRKDIR}}/looking-glass-{{ version }}/client/build"
+    state: directory
+
+- name: Compile and install looking glass 
+  command: "chdir={{WRKDIR}}/looking-glass-{{ version }}/client/build {{ item }}"
+  with_items:
+  - cmake ../ 
+  - make  
+  - make install
