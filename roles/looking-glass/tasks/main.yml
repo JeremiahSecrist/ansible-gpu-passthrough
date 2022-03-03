@@ -1,7 +1,6 @@
 ---
 # tasks file for ./roles/looking-glass
 
-
 - name: Install packages.
   ansible.builtin.package:
     name: 
@@ -31,8 +30,6 @@
       - libdecor-devel
     state: present
 
-# - name: make a working directory
-
 - name: Download latest version of looking-glass.
   get_url:                                                           
     url: "https://looking-glass.io/artifact/{{ version }}/source"                       
@@ -41,17 +38,16 @@
 - name: Unarchive a file that is already on the remote machine
   ansible.builtin.unarchive:
     src: "{{WRKDIR}}/looking-glass.tar.gz"
-    dest: "{{WRKDIR}}/"
+    dest: "/usr/local/src/"
     remote_src: yes
-
 
 - name: Make looking glass compile path.
   file:
-    path: "{{WRKDIR}}/looking-glass-{{ version }}/client/build"
+    path: "/usr/local/src/looking-glass-{{ version }}/client/build"
     state: directory
 
 - name: Compile and install looking glass 
-  command: "chdir={{WRKDIR}}/looking-glass-{{ version }}/client/build {{ item }}"
+  command: "chdir=/usr/local/src/looking-glass-{{ version }}/client/build {{ item }}"
   with_items:
   - cmake ../ 
   - make  
