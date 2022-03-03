@@ -1,2 +1,3 @@
 #!/bin/sh
-sudo ansible-playbook ./local.yml -b -u $USER
+# ansible-galaxy collection install containers.podman
+sudo ansible-playbook ./local.yml -b $1 -u $USER
