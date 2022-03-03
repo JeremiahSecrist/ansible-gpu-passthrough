@@ -1,22 +1,14 @@
 ---
 # tasks file for ./roles/looking-glass
 
-- name: Install the correct web server for RHEL
-  import_tasks: redhat.yml
-  when: ansible_facts['os_family']|lower == 'redhat'
+- name: Install podman.
+  ansible.builtin.package:
+    name: podman
+    state: present
 
-- name: Install the correct web server for Debian
-  import_tasks: debian.yml
-  when: ansible_facts['os_family']|lower == 'debian'
-
-- name: Download looking glass to /usr/local/src/.
-  ansible.builtin.get_url:
-    url: https://looking-glass.io/artifact/{{ version }}/source
-    dest: /usr/local/src/
-    # checksum: 
-
-- name: Extract looking glass to /usr/local/src/looking-glass/.
-  ansible.builtin.unarchive:
-    src: /usr/local/src/looking-glass-{{ version }}.tar.gz
-    dest: /usr/local/src/
-    remote_src: true
+- name: Build looking glass container. 
+  containers.podman.podman_container:
+    name: lg
+    path: ./files
+    build:
+      format: docker
