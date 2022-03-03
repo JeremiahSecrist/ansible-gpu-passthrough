@@ -1,35 +1,10 @@
 ---
 # tasks file for ./roles/looking-glass
 
-- name: Install packages.
-  ansible.builtin.package:
-    name: 
-      - podman
-      - cmake
-      - gcc
-      - gcc-c++ 
-      - libglvnd-devel 
-      - fontconfig-devel 
-      - spice-protocol 
-      - make 
-      - nettle-devel
-      - pkgconf-pkg-config 
-      - binutils-devel 
-      - libXi-devel 
-      - libXinerama-devel.x86_64
-      - libXinerama-devel.i686
-      - libXcursor-devel.x86_64
-      - libXcursor-devel.i686
-      - libXpresent-devel 
-      - libxkbcommon-x11-devel 
-      - wayland-devel 
-      - wayland-protocols-devel
-      - libXScrnSaver-devel 
-      - libXrandr-devel 
-      - dejavu-sans-mono-fonts
-      - libdecor-devel
-    state: present
-
+- name: added in 2.4, previously you used 'include'
+  import_tasks: redhat.yml
+  when: ansible_facts['os_family']|lower == 'redhat'
+  
 - name: Download latest version of looking-glass.
   get_url:                                                           
     url: "https://looking-glass.io/artifact/{{ version }}/source"                       

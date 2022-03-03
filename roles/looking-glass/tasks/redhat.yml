@@ -1,0 +1,28 @@
+- name: Install packages.
+  ansible.builtin.dnf:
+    name: 
+      - podman
+      - cmake
+      - gcc
+      - gcc-c++ 
+      - libglvnd-devel 
+      - fontconfig-devel 
+      - spice-protocol 
+      - make 
+      - nettle-devel
+      - pkgconf-pkg-config 
+      - binutils-devel 
+      - libXi-devel 
+      - libXinerama-devel.x86_64
+      - libXinerama-devel.i686
+      - libXcursor-devel.x86_64
+      - libXcursor-devel.i686
+      - libXpresent-devel 
+      - libxkbcommon-x11-devel 
+      - wayland-devel 
+      - wayland-protocols-devel
+      - libXScrnSaver-devel 
+      - libXrandr-devel 
+      - dejavu-sans-mono-fonts
+      - libdecor-devel
+    state: present
