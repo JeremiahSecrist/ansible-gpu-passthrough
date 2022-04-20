@@ -1,2 +1,4 @@
 ---
 # tasks file for ./roles/gpu-passthrough
+# enable IOMMU via kernel parametes (intel/amd)_iommu=on iommu=pt 
+

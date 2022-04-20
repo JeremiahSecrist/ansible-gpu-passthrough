@@ -4,7 +4,16 @@
 - name: added in 2.4, previously you used 'include'
   import_tasks: redhat.yml
   when: ansible_facts['os_family']|lower == 'redhat'
-  
+
+- name: added in 2.4, previously you used 'include'
+  import_tasks: debian.yml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: Make /tmp/looking-glass.
+  file:
+    path: "/tmp/looking-glass"
+    state: directory
+
 - name: Download latest version of looking-glass.
   get_url:                                                           
     url: "https://looking-glass.io/artifact/{{ version }}/source"                       
@@ -27,3 +36,8 @@
   - cmake ../ 
   - make  
   - make install
+
+- name: Template a file to /etc/tmpfiles.d/10-looking-glass.conf
+  ansible.builtin.template:
+    src: etc/tmpfiles.d/10-looking-glass.conf.j2
+    dest: /etc/tmpfiles.d/10-looking-glass.conf

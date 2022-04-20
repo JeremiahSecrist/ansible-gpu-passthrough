@@ -2,8 +2,15 @@
 - hosts: 127.0.0.1
   connection: local
 
+  vars:
+    vfio_pci_ids: 
+    - 10de:1c82
+    - 10de:0fb9
+    looking_glass_user: sky 
   roles:
     - looking-glass
+    # - ansible-vfio-redhat
+    # 10de:1c82 10de:0fb9
 
   tasks:
 
